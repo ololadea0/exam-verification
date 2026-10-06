@@ -60,9 +60,7 @@ function Logs() {
     isLoadingTimingSummary,
     isError,
     message,
-  } = useSelector(
-    (state) => state.logs,
-  );
+  } = useSelector((state) => state.logs);
   const [searchQuery, setSearchQuery] = useState("");
   const [page, setPage] = useState(1);
 
@@ -86,9 +84,12 @@ function Logs() {
     };
   }, [dispatch, page, pagination.limit, searchQuery]);
 
-  useEffect(() => () => {
-    dispatch(reset());
-  }, [dispatch]);
+  useEffect(
+    () => () => {
+      dispatch(reset());
+    },
+    [dispatch],
+  );
 
   useEffect(() => {
     if (isError && message) {
@@ -124,9 +125,9 @@ function Logs() {
         <div className="p-4 border-b border-border flex items-center justify-between gap-4">
           <div>
             <h3 className="text-foreground">Verification Timing Summary</h3>
-            <p className="text-sm text-muted-foreground">
+            {/* <p className="text-sm text-muted-foreground">
               {timingSummary?.attempts || 0} successful verification attempts
-            </p>
+            </p> */}
           </div>
           {isLoadingTimingSummary ? (
             <RefreshCw className="w-4 h-4 animate-spin text-muted-foreground" />
@@ -194,21 +195,15 @@ function Logs() {
           <table className="w-full">
             <thead className="bg-accent border-b border-border">
               <tr>
-                <th className="px-6 py-3 text-left text-foreground">
-                  Student
-                </th>
+                <th className="px-6 py-3 text-left text-foreground">Student</th>
                 <th className="px-6 py-3 text-left text-foreground">
                   Matric Number
                 </th>
                 <th className="px-6 py-3 text-left text-foreground">
                   Department
                 </th>
-                <th className="px-6 py-3 text-left text-foreground">
-                  Course
-                </th>
-                <th className="px-6 py-3 text-left text-foreground">
-                  Status
-                </th>
+                <th className="px-6 py-3 text-left text-foreground">Course</th>
+                <th className="px-6 py-3 text-left text-foreground">Status</th>
                 <th className="px-6 py-3 text-left text-foreground">
                   Confidence
                 </th>
