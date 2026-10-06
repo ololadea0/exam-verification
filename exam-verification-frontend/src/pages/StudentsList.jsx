@@ -18,7 +18,6 @@ const formatDate = (value) => {
 
   return new Intl.DateTimeFormat("en-NG", {
     dateStyle: "medium",
-    timeStyle: "short",
   }).format(new Date(value));
 };
 
@@ -89,9 +88,12 @@ function StudentsList() {
     };
   }, [dispatch, page, pagination.limit, searchQuery]);
 
-  useEffect(() => () => {
-    dispatch(reset());
-  }, [dispatch]);
+  useEffect(
+    () => () => {
+      dispatch(reset());
+    },
+    [dispatch],
+  );
 
   useEffect(() => {
     if (isError && message) {
@@ -204,9 +206,7 @@ function StudentsList() {
               </button>
             </div>
             <div className="p-6">
-              <p className="text-foreground">
-                Delete {studentToDelete.name}?
-              </p>
+              <p className="text-foreground">Delete {studentToDelete.name}?</p>
               <p className="mt-2 text-sm text-muted-foreground">
                 This action cannot be undone.
               </p>
@@ -437,18 +437,24 @@ function StudentsList() {
 
       <div className="bg-card rounded-lg shadow-sm border border-border">
         <div className="p-4 border-b border-border">
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(event) => {
-                setSearchQuery(event.target.value);
-                setPage(1);
-              }}
-              placeholder="Search by name, matric number, or department..."
-              className="w-full pl-10 pr-4 py-2.5 bg-input-background border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
-            />
+          <div className="flex items-center justify-between gap-3 flex-wrap">
+            <p className="text-sm font-medium text-foreground">
+              Total enrolled:{" "}
+              <span className="text-primary">{pagination.total || 0}</span>
+            </p>
+            <div className="relative flex-1 min-w-[220px] max-w-md">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(event) => {
+                  setSearchQuery(event.target.value);
+                  setPage(1);
+                }}
+                placeholder="Search by name, matric number, or department..."
+                className="w-full pl-10 pr-4 py-2.5 bg-input-background border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+              />
+            </div>
           </div>
         </div>
 
@@ -463,9 +469,7 @@ function StudentsList() {
                 <th className="px-6 py-3 text-left text-foreground">
                   Department
                 </th>
-                <th className="px-6 py-3 text-left text-foreground">
-                  Actions
-                </th>
+                <th className="px-6 py-3 text-left text-foreground">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-border">
@@ -537,29 +541,23 @@ function StudentsList() {
         ) : null}
 
         {pagination.total > 0 ? (
-          <div className="p-4 border-t border-border flex items-center justify-between gap-4">
-            <p className="text-sm text-muted-foreground">
-              Page {pagination.page} of {pagination.pages || 1} ·{" "}
-              {pagination.total} students
-            </p>
-            <div className="flex items-center gap-2">
-              <button
-                type="button"
-                onClick={() => setPage((currentPage) => currentPage - 1)}
-                disabled={isLoading || pagination.page <= 1}
-                className="px-3 py-2 border border-border rounded-md hover:bg-accent transition-colors disabled:opacity-50"
-              >
-                Previous
-              </button>
-              <button
-                type="button"
-                onClick={() => setPage((currentPage) => currentPage + 1)}
-                disabled={isLoading || pagination.page >= pagination.pages}
-                className="px-3 py-2 border border-border rounded-md hover:bg-accent transition-colors disabled:opacity-50"
-              >
-                Next
-              </button>
-            </div>
+          <div className="p-4 border-t border-border flex items-center justify-end gap-2">
+            <button
+              type="button"
+              onClick={() => setPage((currentPage) => currentPage - 1)}
+              disabled={isLoading || pagination.page <= 1}
+              className="px-3 py-2 border border-border rounded-md hover:bg-accent transition-colors disabled:opacity-50"
+            >
+              Previous
+            </button>
+            <button
+              type="button"
+              onClick={() => setPage((currentPage) => currentPage + 1)}
+              disabled={isLoading || pagination.page >= pagination.pages}
+              className="px-3 py-2 border border-border rounded-md hover:bg-accent transition-colors disabled:opacity-50"
+            >
+              Next
+            </button>
           </div>
         ) : null}
       </div>
