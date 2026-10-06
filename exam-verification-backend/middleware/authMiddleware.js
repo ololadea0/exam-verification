@@ -5,12 +5,12 @@ import Admin from "../models/adminModel.js";
 const protect = asyncHandler(async (req, res, next) => {
     const token = req.cookies?.adminToken;
 
-    console.log("=== PROTECT ===");
-    console.log("URL:", req.originalUrl);
-    console.log("Origin:", req.headers.origin);
-    console.log("User-Agent:", req.headers["user-agent"]);
-    console.log("Cookie:", req.headers.cookie);
-    console.log("Token exists:", !!req.cookies?.adminToken);
+    // console.log("=== PROTECT ===");
+    // console.log("URL:", req.originalUrl);
+    // console.log("Origin:", req.headers.origin);
+    // console.log("User-Agent:", req.headers["user-agent"]);
+    // console.log("Cookie:", req.headers.cookie);
+    // console.log("Token exists:", !!req.cookies?.adminToken);
     if (!token)
     {
         console.log("❌ NO TOKEN");
